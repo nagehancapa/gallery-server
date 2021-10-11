@@ -1,6 +1,8 @@
 const { Router, response } = require("express");
 const Artwork = require("../models").artwork;
 const Bid = require("../models").bid;
+const User = require("../models").user;
+const auth = require("../auth/middleware");
 
 const router = new Router();
 
@@ -57,6 +59,41 @@ router.patch("/:id", async (request, response, next) => {
     await artwork.update({ hearts: artwork.hearts + 1 });
 
     response.status(200).send({ message: "ok", artwork });
+  } catch (error) {
+    next(error);
+  }
+});
+
+// make bid
+router.post("/:id/bids", auth, async (request, response, next) => {
+  try {
+    const { id } = request.params;
+    const artwork = await Artwork.findByPk(parseInt(id), { include: [Bid] });
+
+    if (artwork === null) {
+      return response.status(404).send({ message: "Artwork not found" });
+    }
+
+    const currentBids = artwork.bids.map((b) => b.amount);
+    const maxCurrentBid = currentBids.length
+      ? Math.max(...currentBids)
+      : artwork.minimumBid;
+
+    const { amount } = request.body;
+
+    if (amount <= maxCurrentBid + 1) {
+      return response
+        .status(400)
+        .send({ message: "Your bid should be bigger than the current bid" });
+    }
+
+    const newBid = await Bid.create({
+      email: request.user.email,
+      amount,
+      artworkId: artwork.id,
+    });
+
+    return response.status(201).send({ message: "Bid created", newBid });
   } catch (error) {
     next(error);
   }
