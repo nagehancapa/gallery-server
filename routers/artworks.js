@@ -99,4 +99,39 @@ router.post("/:id/bids", auth, async (request, response, next) => {
   }
 });
 
+// post a new artwork
+router.post("/", auth, async (request, response, next) => {
+  try {
+    if (request.user.id === null) {
+      return response.status(404).send({ message: "This user does not exist" });
+    }
+
+    if (!request.user.isArtist) {
+      return response
+        .status(403)
+        .send({ message: "You are not authorized to update this space" });
+    }
+
+    const { title, imageUrl, minimumBid } = request.body;
+
+    if (!title || !imageUrl || !minimumBid) {
+      return res.status(400).send({
+        message: "An artwork must have a title, imageUrl and minimumBid",
+      });
+    }
+
+    const artwork = await Artwork.create({
+      title,
+      imageUrl,
+      hearts: 0,
+      minimumBid,
+      userId: request.user.id,
+    });
+
+    return response.status(201).send({ message: "Artwork created", artwork });
+  } catch (error) {
+    next(error);
+  }
+});
+
 module.exports = router;
