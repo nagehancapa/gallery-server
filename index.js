@@ -3,6 +3,7 @@ const loggerMiddleWare = require("morgan");
 const corsMiddleWare = require("cors");
 const { PORT } = require("./config/constants");
 const authRouter = require("./routers/auth");
+const artworkRouter = require("./routers/artworks");
 const bodyParserMiddleWare = express.json();
 const app = express();
 
@@ -17,6 +18,7 @@ if (process.env.DELAY) {
 }
 
 app.use("/", authRouter);
+app.use("/artworks", artworkRouter);
 
 app.listen(PORT, () => {
   console.log(`Listening on port: ${PORT}`);
