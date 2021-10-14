@@ -81,7 +81,7 @@ router.post("/:id/bids", auth, async (request, response, next) => {
 
     const { amount } = request.body;
 
-    if (amount <= maxCurrentBid + 1) {
+    if (amount <= maxCurrentBid) {
       return response
         .status(400)
         .send({ message: "Your bid should be bigger than the current bid" });
