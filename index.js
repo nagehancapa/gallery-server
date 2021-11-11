@@ -1,6 +1,6 @@
 const express = require("express");
 const loggerMiddleWare = require("morgan");
-const corsMiddleWare = require("cors");
+const cors = require("cors");
 const { PORT } = require("./config/constants");
 const authRouter = require("./routers/auth");
 const artworkRouter = require("./routers/artworks");
@@ -9,7 +9,7 @@ const app = express();
 
 app.use(loggerMiddleWare("dev"));
 app.use(bodyParserMiddleWare);
-app.use(corsMiddleWare());
+app.use(cors());
 
 if (process.env.DELAY) {
   app.use((req, res, next) => {
