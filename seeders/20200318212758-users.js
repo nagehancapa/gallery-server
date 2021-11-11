@@ -40,3 +40,8 @@ module.exports = {
     await queryInterface.bulkDelete("users", null, {});
   },
 };
+
+// name: "nagehan",
+// email: "nagehan@nage.com",
+// password: "n",
+// isArtist: true,
