@@ -34,9 +34,9 @@ router.post("/login", async (req, res, next) => {
     return res.status(200).json({ token, ...user.dataValues });
   } catch (error) {
     console.log(error);
-    return res
-      .status(400)
-      .send({ message: "Login Page: Something went wrong, sorry" });
+    return res.status(400).send({
+      message: `Login Page: Something went wrong, sorry: ${req.body}`,
+    });
   }
 });
 
