@@ -20,6 +20,6 @@ if (process.env.DELAY) {
 app.use("/", authRouter);
 app.use("/artworks", artworkRouter);
 
-app.listen(PORT, () => {
+app.listen(PORT, "0.0.0.0", () => {
   console.log(`Listening on port: ${PORT}`);
 });
