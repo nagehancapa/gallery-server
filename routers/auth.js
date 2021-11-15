@@ -37,7 +37,7 @@ router.post("/login", async (req, res, next) => {
     return res.status(400).send({
       message: `Login Page: Something went wrong, sorry: ${JSON.stringify(
         req.headers
-      )}, ${JSON.stringify(req.body)}`,
+      )}, AND, ${JSON.stringify(req.body)} AND ${JSON.stringify(req)}`,
     });
   }
 });
