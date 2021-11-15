@@ -34,7 +34,9 @@ router.post("/login", async (req, res, next) => {
     return res.status(200).send({ token, ...user.dataValues });
   } catch (error) {
     console.log(error);
-    return res.status(400).send({ message: "Something went wrong, sorry" });
+    return res
+      .status(400)
+      .send({ message: "Login Page: Something went wrong, sorry" });
   }
 });
 
@@ -64,7 +66,9 @@ router.post("/signup", async (req, res) => {
         .send({ message: "There is an existing account with this email" });
     }
 
-    return res.status(400).send({ message: "Something went wrong, sorry" });
+    return res
+      .status(400)
+      .send({ message: "Signup Page: Something went wrong, sorry" });
   }
 });
 
