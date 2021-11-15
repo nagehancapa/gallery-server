@@ -9,7 +9,9 @@ const router = new Router();
 
 router.post("/login", async (req, res, next) => {
   try {
+    console.log(`Before const { email, password } = req.body;`);
     const { email, password } = req.body;
+    console.log(`After const { email, password } = req.body;`);
 
     if (!email || !password) {
       return res
@@ -17,7 +19,9 @@ router.post("/login", async (req, res, next) => {
         .send({ message: "Please provide both email and password" });
     }
 
+    console.log(`Before await User.findOne({ where: { email } });`);
     const user = await User.findOne({ where: { email } });
+    console.log(`After await User.findOne({ where: { email } });`);
 
     if (!user || !bcrypt.compareSync(password, user.password)) {
       return res.status(400).send({
