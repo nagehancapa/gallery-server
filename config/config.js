@@ -21,6 +21,7 @@ module.exports = {
         rejectUnauthorized: false,
       },
     },
+    host: "0.0.0.0",
     dialect: "postgres",
   },
 };
