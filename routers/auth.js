@@ -31,7 +31,7 @@ router.post("/login", async (req, res, next) => {
 
     delete user.dataValues["password"]; // don't send back the password hash
     const token = toJWT({ userId: user.id });
-    return res.status(200).send({ token, ...user.dataValues });
+    return res.status(200).json({ token, ...user.dataValues });
   } catch (error) {
     console.log(error);
     return res
