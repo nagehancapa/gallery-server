@@ -2,5 +2,5 @@
 
 module.exports = {
   SALT_ROUNDS: 10,
-  PORT: process.env.PORT || 4000,
+  PORT: process.env.PORT || 5432,
 };
