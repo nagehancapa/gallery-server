@@ -16,7 +16,7 @@ router.post("/login", async (req, res, next) => {
     if (!email || !password) {
       return res
         .status(400)
-        .send({ message: "Please provide both email and password" });
+        .json({ message: "Please provide both email and password" });
     }
 
     console.log(`Before await User.findOne({ where: { email } });`);
@@ -24,7 +24,7 @@ router.post("/login", async (req, res, next) => {
     console.log(`After await User.findOne({ where: { email } });`);
 
     if (!user || !bcrypt.compareSync(password, user.password)) {
-      return res.status(400).send({
+      return res.status(400).json({
         message: "User with that email not found or password incorrect",
       });
     }
@@ -34,11 +34,10 @@ router.post("/login", async (req, res, next) => {
     return res.status(200).json({ token, ...user.dataValues });
   } catch (error) {
     console.log(error);
-    return res.status(400).send({
+    return res.status(400).json({
       message: `Login Page: Something went wrong, sorry: ${JSON.stringify(
         req.headers
-      )}, AND, ${JSON.stringify(req.body)} AND ${JSON.stringify(
-        req.dataValues
+      )}, AND, ${JSON.stringify(req.body)}
       )}`,
     });
   }
@@ -47,7 +46,7 @@ router.post("/login", async (req, res, next) => {
 router.post("/signup", async (req, res) => {
   const { email, password, name, isArtist } = req.body;
   if (!email || !password || !name) {
-    return res.status(400).send("Please provide an email, password and a name");
+    return res.status(400).json("Please provide an email, password and a name");
   }
 
   try {
@@ -67,12 +66,12 @@ router.post("/signup", async (req, res) => {
     if (error.name === "SequelizeUniqueConstraintError") {
       return res
         .status(400)
-        .send({ message: "There is an existing account with this email" });
+        .json({ message: "There is an existing account with this email" });
     }
 
     return res
       .status(400)
-      .send({ message: "Signup Page: Something went wrong, sorry" });
+      .json({ message: "Signup Page: Something went wrong, sorry" });
   }
 });
 
@@ -82,7 +81,7 @@ router.post("/signup", async (req, res) => {
 router.get("/me", authMiddleware, async (req, res) => {
   // don't send back the password hash
   delete req.user.dataValues["password"];
-  res.status(200).send({ ...req.user.dataValues });
+  res.status(200).json({ ...req.user.dataValues });
 });
 
 module.exports = router;

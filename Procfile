@@ -1,1 +1,1 @@
-release: bash post-release.sh
+web: bash post-release.sh
