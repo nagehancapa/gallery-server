@@ -1,1 +1,1 @@
-web: bash post-release.sh
+worker: bash post-release.sh
