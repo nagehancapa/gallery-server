@@ -45,3 +45,10 @@ module.exports = {
 // email: "nagehan@nage.com",
 // password: "n",
 // isArtist: true,
+
+// name: "birol",
+// email: "birol@nage.com",
+// password: "b",
+// isArtist: true,
+
+// ('{"name":"birol","email":"birol@nage.com","password":"b","isArtist":false}');
