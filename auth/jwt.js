@@ -7,7 +7,7 @@ function toJWT(data) {
 }
 
 function toData(token) {
-  return jwt.verify(token, jwtSecret);
+  return jwt.verify(token, "" + jwtSecret);
 }
 
 module.exports = { toJWT, toData };
