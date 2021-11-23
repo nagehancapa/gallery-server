@@ -6,17 +6,18 @@ async function auth(req, res, next) {
     req.headers.authorization && req.headers.authorization.split(" ");
 
   if (!auth || !(auth[0] === "Bearer") || !auth[1]) {
-    return res.status(401).send({
+    return res.status(401).json({
       message:
-        "This endpoint requires an Authorization header with a valid token"
+        "This endpoint requires an Authorization header with a valid token",
     });
   }
 
   try {
     const data = toData(auth[1]);
+    console.log("token from middleware after toData", data);
     const user = await User.findByPk(data.userId);
     if (!user) {
-      return res.status(404).send({ message: "User does not exist" });
+      return res.status(404).json({ message: "User does not exist" });
     }
 
     // add user object to request
@@ -30,16 +31,16 @@ async function auth(req, res, next) {
       case "TokenExpiredError":
         return res
           .status(401)
-          .send({ error: error.name, message: error.message });
+          .json({ error: error.name, message: error.message });
 
       case "JsonWebTokenError":
         return res
           .status(400)
-          .send({ error: error.name, message: error.message });
+          .json({ error: error.name, message: error.message });
 
       default:
-        return res.status(400).send({
-          message: "Something went wrong, sorry"
+        return res.status(400).json({
+          message: "Something went wrong, sorry",
         });
     }
   }
