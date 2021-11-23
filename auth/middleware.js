@@ -14,7 +14,6 @@ async function auth(req, res, next) {
 
   try {
     const data = toData(auth[1]);
-    console.log("token from middleware after toData", data);
     const user = await User.findByPk(data.userId);
     if (!user) {
       return res.status(404).json({ message: "User does not exist" });
